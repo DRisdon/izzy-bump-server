@@ -1,4 +1,5 @@
 'use strict';
+const bcrypt =  require('bcryptjs')
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     name: DataTypes.STRING,
@@ -13,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
   User.generateToken = (callback, ...params) => {
     const token = bcrypt.hashSync(Math.random().toString(), 10);
 
-    return this.findOne({
+    return User.findOne({
       where: {
-        title: 'aProject'
+        token: token
       },
       attributes: ['id']
     }).then((res) => {
@@ -27,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   User.updateToken = (id, token) => {
-    return this.update({
+    return User.update({
       token: token
     }, {
       where: {
@@ -38,20 +39,20 @@ module.exports = (sequelize, DataTypes) => {
 
   User.newUser = (name, email, password, token) => {
     const password_digest = bcrypt.hashSync(password, 10);
-    return this.create({
+    return User.create({
       name: name,
       email: email,
       password_digest: password_digest,
       token: token
     })
   };
-  User.findByEmail = (email) => this.findOne({
+  User.findByEmail = (email) => User.findOne({
     where: {
       email: email
     }
   });
 
-  User.findByToken = (token) => this.findOne({
+  User.findByToken = (token) => User.findOne({
     where: {
       token: token
     }
