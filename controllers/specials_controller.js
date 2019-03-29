@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const Special = require('../models/special');
+const models = require('../db/models/index');
 const Auth = require('../services/auth');
 
 router.get('/', (req, res) => {
-  res.json({
-    specials: 'none'
+  models.Special.findAll().then( specials => {
+    res.json(specials)
   })
 })
 

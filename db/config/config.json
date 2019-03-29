@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "Drisdon",
+    "password": null,
+    "database": "izzy_db",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "Drisdon",
+    "password": null,
+    "database": "izzy_db",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "Drisdon",
+    "password": null,
+    "database": "izzy_db",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

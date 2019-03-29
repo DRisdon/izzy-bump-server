@@ -1,27 +1,23 @@
-const User = require('../models/user'),
+const models = require('../db/models/index'),
       router = require('express').Router(),
       bcrypt = require('bcryptjs')
 
-// login route
 router.post('/', (req, res)=>{
-  User // find by the lowercase email
+  models.User
     .findByEmail(req.body.email.toLowerCase())
-    .then(data => { // after
-      if(data){ // if there is a user
-        // if the password matches
+    .then(data => {
+      if(data){
         if(bcrypt.compareSync(req.body.password, data.password_digest)){
-          // regenerate the user token and return the promise
-          // we will do another then() at the end to handle the response
-          return User.generateToken(User.updateToken, data.id);
-        } else { // if the password does not match, send back an error
+          return models.User.generateToken(models.User.updateToken, data.id);
+        } else {
           res.status(401).json({ errors: {password: 'Incorrect Password'} });
         }
-      } else { // if the user does not exist, send back an error
+      } else {
         res.status(401).json({ errors: {email: 'Incorrect Email'} });
       }
     })
-    .then(user => { // once we regenerate the token
-      res.json(user);// send back a json with the user information
+    .then(user => {
+      res.json(user);
     });
 });
 

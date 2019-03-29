@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const Picture = require('../models/picture');
+const models = require('../db/models/index');
 const Auth = require('../services/auth');
 
 router.get('/', (req, res) => {
-  res.json({
-    pictures: 'none'
+  models.Picture.findAll().then( pictures => {
+    res.json(pictures)
   })
 })
 

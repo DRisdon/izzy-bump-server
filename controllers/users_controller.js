@@ -1,4 +1,4 @@
-const User = require('../models/user'),
+const models = require('../db/models/index'),
       router = require('express').Router(),
       Auth = require('../services/auth');
 
@@ -49,8 +49,8 @@ router.post('/', (req, res) => {
   if(!error){
     console.log('name', name)
     console.log('image', image)
-    User
-      .generateToken(User.newUser, name, email, image, password)
+    models.User
+      .generateToken(models.User.newUser, name, email, image, password)
       .then(data => {
         res.json(data)
       })
