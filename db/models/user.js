@@ -33,7 +33,8 @@ module.exports = (sequelize, DataTypes) => {
     }, {
       where: {
         id: id
-      }
+      },
+      returning: true
     })
   };
 
@@ -46,6 +47,7 @@ module.exports = (sequelize, DataTypes) => {
       token: token
     })
   };
+
   User.findByEmail = (email) => User.findOne({
     where: {
       email: email

@@ -1,11 +1,11 @@
 const bcrypt = require('bcryptjs'),
-      User = require('../db/models/user');
+      models = require('../db/models/index');
 
 const Auth = {
   authenticate: (req, res, next) => {
     const token = req.query.auth_token;
     if(token){
-      User
+      models.User
         .findByToken(token)
         .then(data => {
           req.user = data;
