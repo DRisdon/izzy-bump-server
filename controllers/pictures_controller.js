@@ -8,6 +8,27 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/artwork', (req, res) => {
+  models.Picture.findAll({
+    where: {
+      pictureType: 'artwork'
+    }
+  }).then(pictures => {
+    res.json(pictures);
+  });
+});
+
+router.get('/tattoos', (req, res) => {
+  models.Picture.findAll({
+    where: {
+      pictureType: 'tattoo'
+    }
+  }).then(pictures => {
+    res.json(pictures);
+  });
+});
+
+
 router.get('/:id', (req, res) => {
   models.Picture.findOne({
     where: {
@@ -22,25 +43,31 @@ router.post('/', Auth.restrict, (req, res) => {
   models.Picture.create({
     name: req.body.name,
     description: req.body.description,
-    url: req.body.url
+    url: req.body.url,
+    pictureType: req.body.pictureType
   }).then(picture => {
     res.json(picture);
-  });
+  }).catch(err =>
+    res.json(err.errors[0])
+  );
 });
 
 router.put('/:id', Auth.restrict, (req, res) => {
   models.Picture.update({
     name: req.body.name,
     description: req.body.description,
-    url: req.body.url
+    url: req.body.url,
+    pictureType: req.body.pictureType
   }, {
     where: {
       id: req.params.id
     },
     returning: true
-  }).then(picture => {
+  }).then(err, picture => {
     res.json(picture[1][0]);
-  });
+  }).catch(err =>
+    res.json(err.errors[0])
+  );
 });
 
 router.delete('/:id', Auth.restrict, (req, res) => {
