@@ -6,6 +6,7 @@ const express = require('express'),
       port = process.env.PORT || 8080,
       Auth = require('./services/auth'),
       cors = require('cors');
+      cloudinary = require('cloudinary')
 
 require('dotenv').config();
 // use cors so we can talk to our other server
