@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isIn: [['artwork', 'tattoo']]
       }
-    }
+    },
+    thumbnail: DataTypes.STRING
   }, {});
   Picture.associate = function(models) {
     // associations can be defined here

@@ -3,6 +3,7 @@ const express = require('express'),
       logger = require('morgan'),
       app = express(),
       bodyParser = require('body-parser'),
+      formData = require('express-form-data')
       port = process.env.PORT || 8080,
       Auth = require('./services/auth'),
       cors = require('cors');
@@ -15,6 +16,7 @@ app.use(cors());
 // body parser to get form data
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(formData.parse())
 
 // logger to see whats going on
 app.use(logger('dev'));
