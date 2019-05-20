@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const models = require('../db/models/index');
+const models = require('../models/index');
 const Auth = require('../services/auth');
 const cloudinary = require('cloudinary');
 const formData = require('express-form-data')
