@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const models = require('../models/index');
 const Auth = require('../services/auth');
-const cloudinary = require('cloudinary');
 const formData = require('express-form-data')
 
 cloudinary.config({
@@ -19,8 +18,26 @@ router.get('/', (req, res) => {
 router.get('/artwork', (req, res) => {
   models.Picture.findAll({
     where: {
-      pictureType: 'artwork'
-    }
+      pictureType: 'artwork',
+      featured: false
+    },
+    order: [
+      ['createdAt', 'DESC'],
+    ]
+  }).then(pictures => {
+    res.json(pictures);
+  });
+});
+
+router.get('/artwork/featured', (req, res) => {
+  models.Picture.findAll({
+    where: {
+      pictureType: 'artwork',
+      featured: true
+    },
+    order: [
+      ['createdAt', 'DESC'],
+    ]
   }).then(pictures => {
     res.json(pictures);
   });
@@ -29,8 +46,26 @@ router.get('/artwork', (req, res) => {
 router.get('/tattoos', (req, res) => {
   models.Picture.findAll({
     where: {
-      pictureType: 'tattoo'
-    }
+      pictureType: 'tattoo',
+      featured: false
+    },
+    order: [
+      ['createdAt', 'DESC']
+    ],
+  }).then(pictures => {
+    res.json(pictures);
+  });
+});
+
+router.get('/tattoos/featured', (req, res) => {
+  models.Picture.findAll({
+    where: {
+      pictureType: 'tattoo',
+      featured: true
+    },
+    order: [
+      ['createdAt', 'DESC']
+    ],
   }).then(pictures => {
     res.json(pictures);
   });
@@ -47,22 +82,19 @@ router.get('/id/:id', (req, res) => {
   });
 });
 
-router.post('/', Auth.restrict, (req, res) => {
-  const imageUrl = req.files ? req.files.image.path : req.body.url
-  const name = req.body.name ? req.body.name :
-  cloudinary.uploader.upload(imageUrl).then((image) => {
-    models.Picture.create({
-      name: req.body.name ? req.body.name : req.files.image.name,
-      description: req.body.description,
-      url: image.secure_url,
-      thumbnail: `https://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/q_10/${image.public_id}.jpg`,
-      pictureType: req.body.pictureType
-    }).then(picture => {
-      res.json(picture);
-    }).catch(err =>
-      res.json(err.errors[0])
-    );
-  });
+router.post('/', Auth.restrict, models.Picture.uploadImage, (req, res) => {
+  models.Picture.create({
+    cloudinaryId: res.locals.uploadedImage.public_id,
+    name: req.body.name ? req.body.name : req.files.image.name,
+    description: req.body.description,
+    url: res.locals.uploadedImage.secure_url,
+    thumbnail: `https://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/q_10/${res.locals.uploadedImage.public_id}.jpg`,
+    pictureType: req.body.pictureType
+  }).then(picture => {
+    res.json(picture);
+  }).catch(err =>
+    res.json(err.errors[0])
+  );
 });
 
 router.put('/id/:id', Auth.restrict, (req, res) => {
@@ -82,7 +114,7 @@ router.put('/id/:id', Auth.restrict, (req, res) => {
   );
 });
 
-router.delete('/id/:id', Auth.restrict, (req, res) => {
+router.delete('/id/:id', Auth.restrict, models.Picture.deleteUpload, (req, res) => {
   models.Picture.destroy({
     where: {
       id: req.params.id
