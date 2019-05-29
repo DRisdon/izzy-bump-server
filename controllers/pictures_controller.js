@@ -23,20 +23,7 @@ router.get('/artwork', (req, res) => {
     },
     order: [
       ['createdAt', 'DESC'],
-    ]
-  }).then(pictures => {
-    res.json(pictures);
-  });
-});
-
-router.get('/artwork/featured', (req, res) => {
-  models.Picture.findAll({
-    where: {
-      pictureType: 'artwork',
-      featured: true
-    },
-    order: [
-      ['createdAt', 'DESC'],
+      ['featured', 'DESC']
     ]
   }).then(pictures => {
     res.json(pictures);
@@ -47,30 +34,29 @@ router.get('/tattoos', (req, res) => {
   models.Picture.findAll({
     where: {
       pictureType: 'tattoo',
-      featured: false
     },
     order: [
-      ['createdAt', 'DESC']
+      ['featured', 'DESC'],
+      ['createdAt', 'DESC'],
     ],
   }).then(pictures => {
     res.json(pictures);
   });
 });
 
-router.get('/tattoos/featured', (req, res) => {
+router.get('/tattoos/designs', (req, res) => {
   models.Picture.findAll({
     where: {
-      pictureType: 'tattoo',
-      featured: true
+      pictureType: 'design',
     },
     order: [
-      ['createdAt', 'DESC']
+      ['createdAt', 'DESC'],
+      ['featured', 'DESC']
     ],
   }).then(pictures => {
     res.json(pictures);
   });
 });
-
 
 router.get('/id/:id', (req, res) => {
   models.Picture.findOne({
@@ -102,6 +88,7 @@ router.put('/id/:id', Auth.restrict, (req, res) => {
     name: req.body.name,
     description: req.body.description,
     pictureType: req.body.pictureType,
+    featured: req.body.featured
   }, {
     where: {
       id: req.params.id
