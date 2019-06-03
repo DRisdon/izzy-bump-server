@@ -21,8 +21,8 @@ router.get('/artwork', (req, res) => {
       pictureType: 'artwork'
     },
     order: [
-      ['createdAt', 'DESC'],
-      ['featured', 'DESC']
+      ['featured', 'DESC'],
+      ['createdAt', 'DESC']
     ]
   }).then(pictures => {
     res.json(pictures);
@@ -43,14 +43,14 @@ router.get('/tattoos', (req, res) => {
   });
 });
 
-router.get('/tattoos/designs', (req, res) => {
+router.get('/designs', (req, res) => {
   models.Picture.findAll({
     where: {
       pictureType: 'design',
     },
     order: [
-      ['createdAt', 'DESC'],
-      ['featured', 'DESC']
+      ['featured', 'DESC'],
+      ['createdAt', 'DESC']
     ],
   }).then(pictures => {
     res.json(pictures);

@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         isIn: [
-          ['artwork', 'tattoo']
+          ['artwork', 'tattoo', 'design']
         ]
       }
     },
