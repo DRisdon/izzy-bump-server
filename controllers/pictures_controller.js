@@ -18,8 +18,7 @@ router.get('/', (req, res) => {
 router.get('/artwork', (req, res) => {
   models.Picture.findAll({
     where: {
-      pictureType: 'artwork',
-      featured: false
+      pictureType: 'artwork'
     },
     order: [
       ['createdAt', 'DESC'],
