@@ -30,6 +30,7 @@ app.use('/users', require('./controllers/users_controller'));
 app.use('/login', require('./controllers/sessions_controller'));
 app.use('/pictures', require('./controllers/pictures_controller'));
 app.use('/specials', require('./controllers/specials_controller'));
+app.use('/mailer', require('./controllers/mailer'))
 
 // listen on port and run server
 app.listen(port, () => console.log('server listening on ' + port));
