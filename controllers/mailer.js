@@ -16,8 +16,10 @@ router.post('/', (req, res) => {
   console.log(emailData);
   mg.messages().send(emailData, function(error, body) {
     if (error) {
+      console.log(error);
       res.status(400).json(error);
     } else {
+      console.log(body);
       res.json(body);
     }
   });
