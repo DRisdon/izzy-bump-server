@@ -14,7 +14,7 @@ router.get('/validate', Auth.restrict, (req, res) => {
 router.post('/', (req, res) => {
 
   models.User.findAll().then(users => {
-    if (users.length > 0) {
+    if (users.length > 1) {
       res.json({
         error: 'admin user already exists'
       })
