@@ -1,13 +1,13 @@
 {
   "development": {
-    "username": "Drisdon",
+    "username": "drisdon",
     "password": null,
     "database": "izzy_db",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
-    "username": "Drisdon",
+    "username": "drisdon",
     "password": null,
     "database": "izzy_db",
     "host": "127.0.0.1",
