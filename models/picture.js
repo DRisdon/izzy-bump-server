@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     featured: DataTypes.BOOLEAN
   }, {});
   Picture.associate = function(models) {
-    // associations can be defined here
+    Picture.belongsTo(Product)
   };
 
   Picture.uploadImage = (req, res, next) => {
@@ -38,9 +38,17 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   Picture.deleteUpload = (req, res, next) => {
+    if (req.params.id) {
+      pictureId = req.params.id
+    } else if (req.body.pictureId) {
+      pictureId = req.body.pictureId
+    } else if (res.locals.pictureId) {
+      pictureId = res.locals.pictureId
+    }
+
     Picture.findOne({
       where: {
-        id: req.params.id
+        id: pictureId
       }
     }).then(picture => {
       if (picture) {
