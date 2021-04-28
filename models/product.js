@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     isArtwork: DataTypes.BOOLEAN
   }, {});
   Product.associate = function(models) {
-    Product.hasOne(Picture)
+    Product.belongsTo(models.Picture)
   };
 
   Product.createPicture = (req, res, next) => {

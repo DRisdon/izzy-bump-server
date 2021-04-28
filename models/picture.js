@@ -1,4 +1,5 @@
 'use strict';
+const models = require('../models/index');
 const cloudinary = require('cloudinary');
 
 module.exports = (sequelize, DataTypes) => {
@@ -19,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     featured: DataTypes.BOOLEAN
   }, {});
   Picture.associate = function(models) {
-    Picture.belongsTo(Product)
+    Picture.hasMany(models.Product)
   };
 
   Picture.uploadImage = (req, res, next) => {
